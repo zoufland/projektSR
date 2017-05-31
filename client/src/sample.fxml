@@ -49,9 +49,11 @@
                 <Label fx:id="timeout" text="Timeout: " GridPane.columnIndex="2" />
                 <TextField fx:id="oczekiwanie" GridPane.columnIndex="4" />
                 <Button fx:id="zapiszDoSerwera" onAction="#zarejestruj" text="Zarejestruj" GridPane.rowIndex="3" />
-                <Button fx:id="zapiszDoSK" onAction="#zadajSK" prefHeight="31.0" prefWidth="100.0" text="Żądaj SK" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                <Button fx:id="zapiszDoSK" onAction="#zadajSK" prefHeight="31.0" prefWidth="95.0" text="Żądaj SK" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                 <TextArea fx:id="czySK" prefHeight="26.0" prefWidth="187.0" GridPane.columnIndex="5" GridPane.rowSpan="4" />
-            <Button fx:id="exit" mnemonicParsing="false" prefHeight="31.0" prefWidth="101.0" text="Wyłącz" GridPane.columnIndex="4" GridPane.rowIndex="3" onAction="#wylaczKlienta" />
+            <Button fx:id="exit" mnemonicParsing="false" onAction="#wylaczKlienta" prefHeight="31.0" prefWidth="101.0" text="Wyłącz" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <Label text="Pobyt w SK:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="czasPobytuWSK" GridPane.columnIndex="4" GridPane.rowIndex="2" />
             </children>
             <columnConstraints>
                 <ColumnConstraints />

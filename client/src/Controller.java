@@ -17,6 +17,7 @@ public class Controller {
     @FXML public TextField timestamp;
     @FXML public TextField oczekiwanie;
     @FXML public TextArea czySK;
+    @FXML public TextField czasPobytuWSK;
 
 
     public void zarejestruj(ActionEvent actionEvent) {
@@ -30,7 +31,17 @@ public class Controller {
     public void zadajSK(ActionEvent actionEvent) {
         boolean czyWszedl = Client.zadajSK(timestamp.getText(), oczekiwanie.getText());
         if (czyWszedl == true) czySK.setText("SK");
+        long starttime = System.currentTimeMillis();
+
+        while(System.currentTimeMillis() - starttime < Integer.parseInt(czasPobytuWSK.getText()))
+        {
+
+        }
+        czySK.setText("");
+        czyWszedl = false;
     }
+
+
 
     public void wylaczKlienta(ActionEvent actionEvent) {
         Client.wylaczKlienta();

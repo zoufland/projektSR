@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,6 +19,7 @@ public class Client {
     public static Integer idKlienta;
 
     public static boolean czyWszedl = false;
+    static boolean done = false;
 
     public static void zarejestruj(Integer id, String adresIPSerwera) {
         Hello hello;
@@ -27,8 +29,9 @@ public class Client {
             IPSerwera = adresIPSerwera;
             idKlienta = id;
             hello = (Hello) Naming.lookup("rmi://" + IPSerwera + "/Hello"); //połączenie z rejestrem RMI
+
             //AddressTracker tracker = new AddressTracker();
-            boolean done = false;
+
 
             String message = InetAddress.getLocalHost().toString(); // pobranie adresu IP
             String[] czesci = message.split("/"); //usunięcie z pobranego stringa nazwy komputera
@@ -39,47 +42,55 @@ public class Client {
             System.out.println("Przesłanie adresu powiodło się.");
 
 
-            while (!done) { //odebranie listy adresów IP od serwera
-                if (hello.odbierzListe() != null) {
-                    System.out.println("Jestem w if ");
-                    adresyIP = hello.odbierzListe();
-                    for (String ip : adresyIP) {
-                        System.out.println(ip);
-                    }
-                    done = true;
-                }
-                Thread.sleep(1000);
-            }
-
-
-            executor.execute(() -> {
-                boolean flaga = false;
-                while (true) {
-                    String idDoUsuniecia= "";
-                    //System.out.println("Jestem w tasku");
+            executor.execute(()-> {
+                while (!done) { //odebranie listy adresów IP od serwera
                     try {
-                        idDoUsuniecia = hello.odbierzID();
+                        if (hello.odbierzListe() != null) {
+                            System.out.println("Jestem w if ");
+                            adresyIP = hello.odbierzListe();
+                            for (String ip : adresyIP) {
+                                System.out.println(ip);
+                            }
+                            done = true;
+                        }
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
-
-
-                    if (idDoUsuniecia != null) {
-                        for (String IP : adresyIP
-                                ) {
-                            if (IP.startsWith(idDoUsuniecia)) adresyIP.remove(adresyIP.indexOf(IP));
-                        }
-                        System.out.println("Usunąłem z listy. Obecna lista: ");
-                        for (String ip :adresyIP
-                                ) {
-                            System.out.println(ip);
-                        }
-                        idDoUsuniecia = null;
-                    }
+                   // Thread.sleep(1000);
                 }
-                    }
+                executor.execute(() -> {
+                            boolean flaga = false;
+                            while (true) {
+                                String idDoUsuniecia= "";
+                                //System.out.println("Jestem w tasku");
+                                try {
+                                    idDoUsuniecia = hello.odbierzID();
+                                } catch (RemoteException e) {
+                                    e.printStackTrace();
+                                }
 
-            );
+
+                                if (idDoUsuniecia != null) {
+                                    for (String IP : adresyIP
+                                            ) {
+                                        if (IP.startsWith(idDoUsuniecia)) adresyIP.remove(adresyIP.indexOf(IP));
+                                    }
+                                    System.out.println("Usunąłem z listy. Obecna lista: ");
+                                    for (String ip :adresyIP
+                                            ) {
+                                        System.out.println(ip);
+                                    }
+                                    idDoUsuniecia = null;
+                                }
+                            }
+                        }
+
+                );
+            });
+
+
+
+
 
 
             //System.out.println(hello.sayHello());
@@ -127,6 +138,7 @@ public class Client {
 
             });
             Thread.sleep(Integer.parseInt(timeout)*1001);
+            executor.shutdownNow();
             System.out.println(czyWszedl);
             if (czyWszedl == true)
             {

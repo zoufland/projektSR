@@ -1,6 +1,8 @@
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,12 +12,14 @@ import java.util.List;
 public class Server{
 
     static LinkedList<String> adresyIP;
+    private static Registry registry;
 
     public static void main(String args[]) {
         try {
             adresyIP = new LinkedList<String>();
             AddressTracker tracker = new AddressTracker();
             Hello hello = new HelloImpl(tracker);
+            registry = LocateRegistry.createRegistry(1099);
             Naming.rebind("rmi://localhost/Hello", hello);
 
             String adres = "";
