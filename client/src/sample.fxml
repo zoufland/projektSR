@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+
+    <bottom>
+        <GridPane hgap="10.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+            <children>
+                <Label text="Logi:" GridPane.rowIndex="0" />
+                <TextArea id="Logi" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="20.0" />
+               </GridPane.margin></TextArea>
+            </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+    </bottom>
+   <right>
+        <GridPane hgap="10.0" vgap="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Adres serwera: " GridPane.rowIndex="1" />
+                <TextField fx:id="serverIpAddress" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label text="Port serwera: " GridPane.rowIndex="2" />
+                <TextField fx:id="serverPort" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label text="Znacznik czasowy: " GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <TextField fx:id="timestamp" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                <Label fx:id="idKlienta" text="ID: " />
+                <TextField fx:id="id" text="1" GridPane.columnIndex="1" />
+                <Label fx:id="timeout" text="Timeout: " GridPane.columnIndex="2" />
+                <TextField fx:id="oczekiwanie" GridPane.columnIndex="4" />
+                <Button fx:id="zapiszDoSerwera" onAction="#zarejestruj" text="Zarejestruj" GridPane.rowIndex="3" />
+                <Button fx:id="zapiszDoSK" onAction="#zadajSK" prefHeight="31.0" prefWidth="100.0" text="Żądaj SK" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                <TextArea fx:id="czySK" prefHeight="26.0" prefWidth="187.0" GridPane.columnIndex="5" GridPane.rowSpan="4" />
+            <Button fx:id="exit" mnemonicParsing="false" prefHeight="31.0" prefWidth="101.0" text="Wyłącz" GridPane.columnIndex="4" GridPane.rowIndex="3" onAction="#wylaczKlienta" />
+            </children>
+            <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints />
+                <ColumnConstraints />
+                <ColumnConstraints />
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+        </GridPane>
+   </right>
+
+</BorderPane>
