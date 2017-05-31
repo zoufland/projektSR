@@ -18,7 +18,7 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         super.stop();
-        Client.mainExecutor.shutdownNow();
+        //Client.mainExecutor.shutdownNow();
     }
 
     public static void main(String[] args) {

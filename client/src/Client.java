@@ -5,6 +5,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,6 +21,8 @@ public class Client {
 
     public static boolean czyWszedl = false;
     static boolean done = false;
+    private static Registry registry;
+    private static String znacznikCzasu;
 
     public static void zarejestruj(Integer id, String adresIPSerwera) {
         Hello hello;
@@ -29,6 +32,7 @@ public class Client {
             IPSerwera = adresIPSerwera;
             idKlienta = id;
             hello = (Hello) Naming.lookup("rmi://" + IPSerwera + "/Hello"); //połączenie z rejestrem RMI
+            registry = LocateRegistry.createRegistry(1099);
 
             //AddressTracker tracker = new AddressTracker();
 
@@ -101,7 +105,7 @@ public class Client {
     }
 
     public static boolean zadajSK(String timestamp, String timeout) {
-        String znacznikCzasu = idKlienta + " " + timestamp;
+        znacznikCzasu = timestamp;
         Hello hello;
         ExecutorService executor = Executors.newSingleThreadExecutor();
         czyWszedl = false;
@@ -116,7 +120,12 @@ public class Client {
                 {
                     try {
                         int liczbaOkejek = 0;
-                        if (hello.zwrocListeOkejek() != null)
+                        for (String klient: adresyIP) {
+                            String[] czesci = klient.split(" ");
+                            Hello rejestrZdalny = (Hello) Naming.lookup("rmi://" + czesci[1] + "/Hello");
+                        }
+
+                        /*if (hello.zwrocListeOkejek() != null)
                         {
 
                             LinkedList<String> listaOkejek = hello.zwrocListeOkejek();
@@ -130,8 +139,12 @@ public class Client {
                             //System.out.println(liczbaOkejek + " " + (adresyIP.size()-1));
                             czyWszedl = true;
 
-                        }
+                        }*/
                     } catch (RemoteException e) {
+                        e.printStackTrace();
+                    } catch (NotBoundException e) {
+                        e.printStackTrace();
+                    } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
                 }

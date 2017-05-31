@@ -23,6 +23,7 @@ public class Controller {
     public void zarejestruj(ActionEvent actionEvent) {
         System.out.println("test");
         //System.out.println(Integer.parseInt(id.getText()));
+        Client client = new Client();
         Client.zarejestruj(Integer.parseInt(id.getText()), serverIpAddress.getText() + ":" + serverPort.getText());
 
 

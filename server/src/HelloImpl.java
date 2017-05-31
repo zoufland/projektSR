@@ -67,7 +67,8 @@ public class HelloImpl extends UnicastRemoteObject implements Hello {
     public String przeslijTimestamp(String timestamp)
     {
         this.timestamp = timestamp;
-        znacznikiCzasu.add(timestamp);
+
+        //znacznikiCzasu.add(timestamp);
         return timestamp;
     }
 
@@ -83,6 +84,8 @@ public class HelloImpl extends UnicastRemoteObject implements Hello {
             if (znacznik.startsWith(id)) znacznikiCzasu.remove(znacznikiCzasu.indexOf(znacznik));
         }
     }
+
+
 
     public void przeslijOkejke(String idDocelowy)
     {
