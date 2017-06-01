@@ -16,7 +16,7 @@
         <GridPane hgap="10.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
             <children>
                 <Label text="Logi:" GridPane.rowIndex="0" />
-                <TextArea id="Logi" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                <TextArea fx:id="Logi" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="20.0" />
                </GridPane.margin></TextArea>

@@ -26,7 +26,7 @@ public class Client {
     private static LocalTime znacznikCzasu;
     private static RejestrKlient rejestrWlasny;
 
-    public static void zarejestruj(Integer id, String adresIPSerwera) {
+    public static boolean zarejestruj(Integer id, String adresIPSerwera) {
         Hello hello;
         ExecutorService executor = Executors.newSingleThreadExecutor();
         try {
@@ -47,6 +47,17 @@ public class Client {
             System.out.println(message);
             System.out.println("Przesłanie adresu powiodło się.");
 
+            rejestrWlasny = new RejestrImpl();
+            try {
+                Naming.rebind("rmi://localhost:1100/RejestrKlient", rejestrWlasny);
+                System.out.println("Utworzyłem rejestr.");
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                return false;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return false;
+            }
 
             executor.execute(()-> {
                 while (!done) { //odebranie listy adresów IP od serwera
@@ -67,10 +78,16 @@ public class Client {
                 executor.execute(() -> {
                             boolean flaga = false;
                             while (true) {
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                                 String idDoUsuniecia= "";
                                 //System.out.println("Jestem w tasku");
                                 try {
-                                    idDoUsuniecia = hello.odbierzID();
+                                    idDoUsuniecia = rejestrWlasny.odbierzID();
+
                                 } catch (RemoteException e) {
                                     e.printStackTrace();
                                 }
@@ -81,6 +98,7 @@ public class Client {
                                             ) {
                                         if (IP.startsWith(idDoUsuniecia)) adresyIP.remove(adresyIP.indexOf(IP));
                                     }
+                                    System.out.println(idDoUsuniecia);
                                     System.out.println("Usunąłem z listy. Obecna lista: ");
                                     for (String ip :adresyIP
                                             ) {
@@ -94,15 +112,7 @@ public class Client {
                 );
             });
 
-            rejestrWlasny = new RejestrImpl();
-            try {
-                Naming.rebind("rmi://" +"192.168.56.1" +/* + InetAddress.getLocalHost().toString() + */":1100/RejestrKlient", rejestrWlasny);
-                System.out.println("Utworzyłem rejestr.");
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+
 
 
 
@@ -113,6 +123,7 @@ public class Client {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
         }
+        return true;
     }
 
     public static boolean zadajSK(String timestamp, String timeout) {
@@ -185,15 +196,30 @@ public class Client {
 
     public static void wylaczKlienta()
     {
-        Hello hello;
+        //Hello hello;
 
         try {
-            hello = (Hello) Naming.lookup("rmi://" + IPSerwera + "/Hello");
-            hello.doUsuniecia(idKlienta.toString());
+            //RejestrKlient rejestr = (RejestrKlient) Naming.lookup("rmi://localhost:1100/RejestrKlient");
+            for (String klient:adresyIP) {
+                String[] czesci = klient.split(" ");
+                //System.out.println(czesci[1]);
+                RejestrKlient rejestrZdalny = (RejestrKlient) Naming.lookup("rmi://" + czesci[1] + ":1100/RejestrKlient");
+                rejestrZdalny.doUsuniecia(idKlienta.toString());
+            }
 
 
-        } catch (RemoteException | NotBoundException | MalformedURLException e) {
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static LinkedList<String> zwrocListeKlientow()
+    {
+        return adresyIP;
     }
 }

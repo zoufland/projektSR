@@ -8,12 +8,35 @@ import java.rmi.RemoteException;
 public class RejestrImpl extends UnicastRemoteObject implements RejestrKlient{
 
     public LocalTime znacznikCzasuWlasny;
+    public String coUsunac;
+    public boolean czyUsunac = false;
 
     protected RejestrImpl() throws RemoteException {
     }
 
+    public String doUsuniecia(String id)
+    {
+        coUsunac = id;
+        czyUsunac = true;
+        return id;
+    }
+
+    public String odbierzID()
+    {
+        if (czyUsunac == true)
+        {
+            czyUsunac = false;
+            return coUsunac;
+        }
+        else return null;
+    }
+
     public boolean sprawdzTimestamp (LocalTime timestampZadania)
     {
+        if(znacznikCzasuWlasny == null)
+        {
+            return true;
+        }
         if (timestampZadania.compareTo(znacznikCzasuWlasny) < 0)
         {
             return true;
@@ -28,5 +51,10 @@ public class RejestrImpl extends UnicastRemoteObject implements RejestrKlient{
     public void przeslijTimestamp(LocalTime timestamp)
     {
         znacznikCzasuWlasny = timestamp;
+    }
+
+    public void wyzerujTimestamp()
+    {
+        znacznikCzasuWlasny = null;
     }
 }

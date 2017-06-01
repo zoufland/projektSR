@@ -7,8 +7,14 @@ import java.time.LocalTime;
  */
 public interface RejestrKlient extends Remote {
 
-    public boolean sprawdzTimestamp (LocalTime timestamp) throws RemoteException;
+    boolean sprawdzTimestamp (LocalTime timestamp) throws RemoteException;
 
-    public void przeslijTimestamp(LocalTime timestamp) throws RemoteException;
+    void przeslijTimestamp(LocalTime timestamp) throws RemoteException;
+
+    void wyzerujTimestamp() throws RemoteException;
+
+    String doUsuniecia(String id) throws RemoteException;
+
+    String odbierzID() throws RemoteException;
 
 }
