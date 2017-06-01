@@ -80,7 +80,7 @@ public class HelloImpl extends UnicastRemoteObject implements Hello {
     public void klientWszedl(String id)
     {
         for (String znacznik:znacznikiCzasu
-             ) {
+                ) {
             if (znacznik.startsWith(id)) znacznikiCzasu.remove(znacznikiCzasu.indexOf(znacznik));
         }
     }

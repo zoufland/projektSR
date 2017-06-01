@@ -11,6 +11,6 @@ public class Service {
 
     public boolean checkTimestamp(String timestamp)
     {
-        if(timestamp.compareTo(this.timestamp) == 1);
+        return true;
     }
 }

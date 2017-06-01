@@ -31,10 +31,11 @@ public class Controller {
 
     public void zadajSK(ActionEvent actionEvent) {
         boolean czyWszedl = Client.zadajSK(timestamp.getText(), oczekiwanie.getText());
+        System.out.println("Czy wszedłem do sekcji krytycznej? " + czyWszedl);
         if (czyWszedl == true) czySK.setText("SK");
         long starttime = System.currentTimeMillis();
 
-        while(System.currentTimeMillis() - starttime < Integer.parseInt(czasPobytuWSK.getText()))
+        while(System.currentTimeMillis() - starttime < Integer.parseInt(czasPobytuWSK.getText())*1000)
         {
 
         }
