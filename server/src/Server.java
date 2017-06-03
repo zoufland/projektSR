@@ -25,7 +25,7 @@ public class Server{
             String adres = "";
             String idKlienta;
             long startTime = System.currentTimeMillis();
-            while (System.currentTimeMillis() - startTime < 10000)
+            while (System.currentTimeMillis() - startTime < 20000)
             {
                     do {
                         if (tracker.getAdres() != adres) {

@@ -41,7 +41,7 @@
                 <Label text="Adres serwera: " GridPane.rowIndex="1" />
                 <TextField fx:id="serverIpAddress" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Label text="Port serwera: " GridPane.rowIndex="2" />
-                <TextField fx:id="serverPort" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="serverPort" text="1099" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <Label text="Znacznik czasowy: " GridPane.columnIndex="2" GridPane.rowIndex="1" />
                 <TextField fx:id="timestamp" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                 <Label fx:id="idKlienta" text="ID: " />

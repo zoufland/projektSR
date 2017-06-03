@@ -10,6 +10,7 @@ public class RejestrImpl extends UnicastRemoteObject implements RejestrKlient{
     public LocalTime znacznikCzasuWlasny;
     public String coUsunac;
     public boolean czyUsunac = false;
+    public String idWylaczonego;
 
     protected RejestrImpl() throws RemoteException {
     }
@@ -29,6 +30,13 @@ public class RejestrImpl extends UnicastRemoteObject implements RejestrKlient{
             return coUsunac;
         }
         else return null;
+    }
+
+    public String odbierzIDWylaczonego()
+    {
+        idWylaczonego = coUsunac;
+        coUsunac = null;
+        return idWylaczonego;
     }
 
     public boolean sprawdzTimestamp (LocalTime timestampZadania)

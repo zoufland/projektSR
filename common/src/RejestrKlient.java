@@ -17,4 +17,6 @@ public interface RejestrKlient extends Remote {
 
     String odbierzID() throws RemoteException;
 
+    String odbierzIDWylaczonego() throws RemoteException;
+
 }

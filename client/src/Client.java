@@ -24,7 +24,7 @@ public class Client {
     static boolean done = false;
     private static Registry registry;
     private static LocalTime znacznikCzasu;
-    private static RejestrKlient rejestrWlasny;
+    public static RejestrKlient rejestrWlasny;
 
     public static boolean zarejestruj(Integer id, String adresIPSerwera) {
         Hello hello;
@@ -63,7 +63,7 @@ public class Client {
                 while (!done) { //odebranie listy adresów IP od serwera
                     try {
                         if (hello.odbierzListe() != null) {
-                            System.out.println("Jestem w if ");
+
                             adresyIP = hello.odbierzListe();
                             for (String ip : adresyIP) {
                                 System.out.println(ip);
@@ -84,7 +84,7 @@ public class Client {
                                     e.printStackTrace();
                                 }
                                 String idDoUsuniecia= "";
-                                //System.out.println("Jestem w tasku");
+
                                 try {
                                     idDoUsuniecia = rejestrWlasny.odbierzID();
 
@@ -122,6 +122,7 @@ public class Client {
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -194,7 +195,7 @@ public class Client {
         return czyWszedl;
     }
 
-    public static void wylaczKlienta()
+    public static int wylaczKlienta()
     {
         //Hello hello;
 
@@ -216,6 +217,7 @@ public class Client {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        return idKlienta;
     }
 
     public static LinkedList<String> zwrocListeKlientow()

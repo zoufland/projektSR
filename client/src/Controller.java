@@ -28,7 +28,7 @@ public class Controller {
 
 
     public void zarejestruj(ActionEvent actionEvent) {
-        System.out.println("test");
+
         ExecutorService executor = Executors.newSingleThreadExecutor();
         //System.out.println(Integer.parseInt(id.getText()));
         Client client = new Client();
@@ -38,7 +38,7 @@ public class Controller {
             Logi.appendText("Pomyślnie zarejestrowano się w serwerze. \n");
             long starttime = System.currentTimeMillis();
             executor.execute(()->{
-                while(System.currentTimeMillis() - starttime < 5000)
+                while(System.currentTimeMillis() - starttime < 25000)
                 {
 
                 }
@@ -47,6 +47,29 @@ public class Controller {
                 for (String klient: adresyIP) {
                     Logi.appendText(klient + "\n");
                 }
+                executor.execute(()->
+                {
+                    while(true)
+                    {
+                        try {
+                            String idWylaczonego = Client.rejestrWlasny.odbierzIDWylaczonego();
+                            //System.out.println(idWylaczonego);
+                            Thread.sleep(500);
+                            if(idWylaczonego != null)
+                            {
+                                Logi.appendText("Wyłączono klienta " + idWylaczonego + ".\n");
+                                Thread.sleep(5000);
+                                Logi.appendText("Aktualna lista klientów: " + Client.zwrocListeKlientow() + ".\n");
+                            }
+                            idWylaczonego = null;
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
             });
 
         }
@@ -94,6 +117,12 @@ public class Controller {
 
 
     public void wylaczKlienta(ActionEvent actionEvent) {
-        Client.wylaczKlienta();
+        int idWylaczonego = Client.wylaczKlienta();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //Logi.appendText("Wyłączono klienta " + idWylaczonego + ".\nAktualna lista klientów: " + Client.zwrocListeKlientow() + ".\n");
     }
 }
